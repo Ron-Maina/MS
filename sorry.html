@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madness Scale Email</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-image: url('https://www.shutterstock.com/image-vector/violence-against-men-600nw-786390694.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .slider-container {
+            border: 2px solid #000;
+            padding: 20px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px; /* Ensure the container doesn't become too large on wide screens */
+        }
+        .slider-container h1 {
+            margin-bottom: 20px;
+            font-size: 1.5em; /* Adjust heading size for mobile */
+        }
+        .slider-container input[type=range] {
+            width: 100%;
+            margin-top: 20px;
+        }
+        #madness-level {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #button {
+            background-color: #007BFF;
+            color: white;
+            border: 2px solid #0056b3;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            width: 100%; /* Make button full-width on mobile */
+            box-sizing: border-box; /* Ensure padding doesn't break layout */
+        }
+        #button:hover {
+            background-color: #0056b3;
+            border-color: #003d80;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            .slider-container {
+                padding: 15px;
+                border-width: 1px;
+            }
+            .slider-container h1 {
+                font-size: 1.2em; /* Smaller heading size on mobile */
+            }
+            #button {
+                font-size: 14px; /* Adjust button text size for mobile */
+                padding: 8px 16px;
+            }
+            #madness-level {
+                font-size: 16px; /* Slightly reduce madness level text size */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="slider-container">
+    <h1>How mad are we today?</h1>
+    <p id="madness-level">Select a level of madness</p>
+    <input type="range" id="madness-slider" min="1" max="10" step="1">
+    <input type="submit" id="button" value="Send Madness Level">
+</div>
+
+<!-- Include EmailJS SDK -->
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script type="text/javascript">
+  emailjs.init('k16Hj-CPXvj2kWvGh') // Your public key from EmailJS
+</script>
+
+<script>
+    const slider = document.getElementById('madness-slider');
+    const madnessLevelText = document.getElementById('madness-level');
+    const btn = document.getElementById('button');
+
+    // Update madness level display when slider is adjusted
+    slider.addEventListener('input', function () {
+        const madnessLevel = slider.value;
+        madnessLevelText.textContent = `Scale of 1 to 10: ${madnessLevel}`;
+    });
+
+    // Send email when button is clicked
+    btn.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent page reload
+
+        const madnessLevel = slider.value; // Get the madness level from the slider
+
+        btn.value = 'Sending...';
+
+        const serviceID = 'service_4h42vdr'; // Replace with your actual service ID
+        const templateID = 'template_87nbjr9'; // Replace with your actual template ID
+
+        // Prepare the data for the email
+        const templateParams = {
+            message: madnessLevel,
+            reply_to: 'noreply@example.com' // You can update this field or make it dynamic
+        };
+
+        // Send email using EmailJS
+        emailjs.send(serviceID, templateID, templateParams)
+            .then(() => {
+                btn.value = 'Send Madness Level';
+                alert('Sent to your Ron (Hopefully that remains the case)');
+            }, (err) => {
+                btn.value = 'Send Madness Level';
+                alert(JSON.stringify(err));
+            });
+    });
+</script>
+
+</body>
+</html>
