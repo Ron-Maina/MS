@@ -14,7 +14,7 @@
             align-items: center;
             font-family: Arial, sans-serif;
             background-image: url('https://www.shutterstock.com/image-vector/violence-against-men-600nw-786390694.jpg');
-            background-size: cover;
+            background-size: cover; /* Ensure the image covers the whole page */
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -27,11 +27,11 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             width: 100%;
-            max-width: 400px; /* Ensure the container doesn't become too large on wide screens */
+            max-width: 400px;
         }
         .slider-container h1 {
             margin-bottom: 20px;
-            font-size: 1.5em; /* Adjust heading size for mobile */
+            font-size: 1.5em;
         }
         .slider-container input[type=range] {
             width: 100%;
@@ -50,8 +50,8 @@
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease, border-color 0.3s ease;
-            width: 100%; /* Make button full-width on mobile */
-            box-sizing: border-box; /* Ensure padding doesn't break layout */
+            width: 100%;
+            box-sizing: border-box;
         }
         #button:hover {
             background-color: #0056b3;
@@ -60,19 +60,23 @@
 
         /* Responsive styling */
         @media (max-width: 600px) {
+            body {
+                background-size: contain; /* Adjust background to contain for mobile */
+                background-position: top; /* Align the image at the top for better visibility */
+            }
             .slider-container {
                 padding: 15px;
                 border-width: 1px;
             }
             .slider-container h1 {
-                font-size: 1.2em; /* Smaller heading size on mobile */
+                font-size: 1.2em;
             }
             #button {
-                font-size: 14px; /* Adjust button text size for mobile */
+                font-size: 14px;
                 padding: 8px 16px;
             }
             #madness-level {
-                font-size: 16px; /* Slightly reduce madness level text size */
+                font-size: 16px;
             }
         }
     </style>
@@ -81,7 +85,7 @@
 
 <div class="slider-container">
     <h1>How mad are we today?</h1>
-    <p id="madness-level">Select a level of madness</p>
+    <p id="madness-level"></p>
     <input type="range" id="madness-slider" min="1" max="10" step="1">
     <input type="submit" id="button" value="Send Madness Level">
 </div>
@@ -125,10 +129,10 @@
         // Send email using EmailJS
         emailjs.send(serviceID, templateID, templateParams)
             .then(() => {
-                btn.value = 'Send Madness Level';
+                btn.value = 'Send Level';
                 alert('Sent to your Ron (Hopefully that remains the case)');
             }, (err) => {
-                btn.value = 'Send Madness Level';
+                btn.value = 'Send Level';
                 alert(JSON.stringify(err));
             });
     });
